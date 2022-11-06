@@ -1,0 +1,24 @@
+
+
+<body onload="whenLoaded()">
+
+    <pre id="log"></pre>
+    <script>
+    function whenLoaded() {
+        const logEl = document.getElementById('log');
+        const wsAddress = `${document.location.protocol == 'http:' ? 'ws:' : 'wss:'}${document.location.host}/foo`
+        console.log(wsAddress);
+        logEl.innerText = `Connecting to ${wsAddress}`
+        const cl = new WebSocket(wsAddress);
+        cl.onmessage = (event) => {
+             console.log(event.data);
+            logEl.innerText = `${event.data}\n`+logEl.innerText;
+        }
+
+        cl.onopen = (event) => {
+            console.log('cl open');
+            cl.send("Here's some text that the server is urgently awaiting!");
+};
+    }
+    </script>
+    </body>
